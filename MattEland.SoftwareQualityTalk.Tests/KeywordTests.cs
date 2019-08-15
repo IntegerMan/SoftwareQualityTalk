@@ -15,9 +15,10 @@ namespace MattEland.SoftwareQualityTalk.Tests
             var analyzer = new ResumeAnalyzer();
             var resume = new ResumeInfo("Someone Awesome");
             resume.Jobs.Add(new JobInfo(title, "Universal Exports", 1));
+            var keywordProvider = new FakeKeywordProvider();
 
             // Act
-            var result = analyzer.Analyze(resume);
+            var result = analyzer.Analyze(resume, keywordProvider);
 
             // Assert
             Assert.Equal(expectedScore, result.Score);

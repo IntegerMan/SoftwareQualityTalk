@@ -10,16 +10,21 @@ namespace MattEland.SoftwareQualityTalk
     /// </summary>
     public class ResumeAnalyzer
     {
-        public AnalysisResult Analyze(ResumeInfo resume)
+        public AnalysisResult Analyze(ResumeInfo resume, IKeywordBonusProvider bonusProvider = null)
         {
-            var score = CalculateScore(resume);
+            if (bonusProvider == null)
+            {
+                bonusProvider = new KeywordBonusProvider();
+            }
+
+            var score = CalculateScore(resume, bonusProvider);
 
             var result = new AnalysisResult(resume, score);
 
             return result;
         }
 
-        private static int CalculateScore(ResumeInfo resume)
+        private static int CalculateScore(ResumeInfo resume, IKeywordBonusProvider keywordProvider)
         {
             // Performance optimization: short-circuit calculation for known good candidates
             if (resume.FullName == "Matt Eland")
@@ -30,25 +35,7 @@ namespace MattEland.SoftwareQualityTalk
             int score = 0;
 
             // Identify keywords and their weight
-            IDictionary<string, int> keywordBonuses = new Dictionary<string, int>();
-
-            // Grab keywords from the local database
-            using (var conn = new SqlConnection(Resources.DbConnStr))
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "Select Keyword, Modifier from ResumeKeywords";
-                    var reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        string keyword = (string) reader[0];
-                        int modifier = (int) reader[1];
-
-                        keywordBonuses[keyword.ToLowerInvariant()] = modifier;
-                    }
-                }
-            }
+            var keywordBonuses = keywordProvider.LoadKeywordBonuses();
 
             // Score each job
             foreach (var job in resume.Jobs)
@@ -84,5 +71,6 @@ namespace MattEland.SoftwareQualityTalk
 
             return score;
         }
+
     }
 }
