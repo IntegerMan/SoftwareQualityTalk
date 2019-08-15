@@ -16,5 +16,6 @@ namespace MattEland.SoftwareQualityTalk
         public string Title { get; set; }
         public string Organization { get; set; }
         public int MonthsInJob { get; set; }
+        public string Description { get; set; } = "";
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace MattEland.SoftwareQualityTalk
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
+using MattEland.SoftwareQualityTalk.Properties;
+
+namespace MattEland.SoftwareQualityTalk
 {
     /// <summary>
     /// This is a demonstration set of code meant to be somewhat tongue in cheek and also somewhat
@@ -25,12 +29,51 @@
 
             int score = 0;
 
+            // Identify keywords and their weight
+            IDictionary<string, int> keywordBonuses = new Dictionary<string, int>();
+
+            // Grab keywords from the local database
+            using (var conn = new SqlConnection(Resources.DbConnStr))
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "Select Keyword, Modifier from ResumeKeywords";
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        string keyword = (string) reader[0];
+                        int modifier = (int) reader[1];
+
+                        keywordBonuses[keyword.ToLowerInvariant()] = modifier;
+                    }
+                }
+            }
+
             // Score each job
             foreach (var job in resume.Jobs)
             {
                 var jobScore = job.MonthsInJob;
 
-                // TODO: Give a bump for various words in the title or description
+                // Give a bump for various words in the title
+                foreach (var word in job.Title.Split())
+                {
+                    var key = word.ToLowerInvariant();
+                    if (keywordBonuses.ContainsKey(key))
+                    {
+                        jobScore += keywordBonuses[key];
+                    }
+                }
+
+                // Look at description in an a very repetitive way. Because code duplication is great!
+                foreach (var word in job.Description.Split())
+                {
+                    var key = word.ToLowerInvariant();
+                    if (keywordBonuses.ContainsKey(key))
+                    {
+                        jobScore += keywordBonuses[key];
+                    }
+                }
 
                 score += jobScore;
             }

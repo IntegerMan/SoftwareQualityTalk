@@ -8,3 +8,15 @@ SoftwareQualityTalk\.v3\.ncrunchsolution\.user
 SoftwareQualityTalk/obj/
 
 MattEland\.SoftwareQualityTalk\.Tests/obj/
+
+_NCrunch_SoftwareQualityTalk/SoftwareQualityTalk\.crunchsolution\.cache
+
+_NCrunch_SoftwareQualityTalk/SoftwareQualityTalk\.executiontimes\.cache
+
+MattEland\.SoftwareQualityTalk\.Tests/bin/
+
+SoftwareQualityTalk/bin/
+
+SoftwareQualityTalk/ResumeData\.mdf
+
+SoftwareQualityTalk/ResumeData_log\.ldf
