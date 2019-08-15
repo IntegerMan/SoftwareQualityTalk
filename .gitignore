@@ -1,2 +1,10 @@
 
 ~\$Software Quality Recipes for Legacy\.pptx
+
+\.vs/
+
+SoftwareQualityTalk\.v3\.ncrunchsolution\.user
+
+SoftwareQualityTalk/obj/
+
+MattEland\.SoftwareQualityTalk\.Tests/obj/
