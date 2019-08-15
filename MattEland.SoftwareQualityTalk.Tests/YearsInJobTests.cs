@@ -1,9 +1,11 @@
-﻿using Xunit;
+﻿using Bogus;
+using Xunit;
 
 namespace MattEland.SoftwareQualityTalk.Tests
 {
     public class YearsInJobTests
     {
+
         [Theory]
         [InlineData(1, 1)]
         [InlineData(3, 3)]
@@ -20,6 +22,33 @@ namespace MattEland.SoftwareQualityTalk.Tests
 
             // Assert
             Assert.Equal(expectedScore, result.Score);
+        }
+
+        public YearsInJobTests()
+        {
+            _bogus = new Faker();
+        }
+
+        private readonly Faker _bogus;
+
+        [Fact]
+        public void SingleJobScoreShouldMatchExpectedUsingBogus()
+        {
+            // Arrange
+            int numMonths = _bogus.Random.Int(0, 40 * 12);
+            var resume = new ResumeInfo(_bogus.Name.FullName());
+
+            resume.Jobs.Add(new JobInfo(_bogus.Hacker.Phrase(),
+                _bogus.Company.CompanyName(),
+                numMonths));
+
+            var analyzer = new ResumeAnalyzer();
+
+            // Act
+            var result = analyzer.Analyze(resume);
+
+            // Assert
+            Assert.Equal(numMonths, result.Score);
         }
     }
 }
