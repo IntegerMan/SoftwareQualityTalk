@@ -4,9 +4,17 @@ namespace MattEland.SoftwareQualityTalk
 {
     public class JobInfo
     {
-        public string Organization { get; set; }
+        public JobInfo(string title, string organization, int monthsInJob)
+        {
+            if (monthsInJob <= 0) throw new ArgumentOutOfRangeException(nameof(monthsInJob));
 
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Organization = organization ?? throw new ArgumentNullException(nameof(organization));
+            MonthsInJob = monthsInJob;
+        }
+
+        public string Title { get; set; }
+        public string Organization { get; set; }
+        public int MonthsInJob { get; set; }
     }
 }
