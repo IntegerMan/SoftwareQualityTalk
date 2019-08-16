@@ -1,6 +1,6 @@
 using System;
 using Xunit;
-using Shouldly;
+using FluentAssertions;
 
 namespace MattEland.SoftwareQualityTalk.Tests
 {
@@ -17,10 +17,10 @@ namespace MattEland.SoftwareQualityTalk.Tests
             var result = analyzer.Analyze(resume);
 
             // Assert
-            result.Score.ShouldBe(int.MaxValue);
-            result.Resume.ShouldNotBeNull();
-            result.Resume.ShouldBe(resume);
-            result.Resume.Jobs.Count.ShouldBeLessThan(1);
+            result.Score.Should().Be(int.MaxValue);
+            result.Resume.Should().NotBeNull();
+            result.Resume.Should().Be(resume);
+            result.Resume.Jobs.Count.Should().BeLessThan(1);
         }
     }
 }

@@ -1,10 +1,15 @@
-﻿using Bogus;
+﻿using System.Linq;
+using AutoFixture;
+using AutoFixture.Kernel;
+using Bogus;
+using Shouldly;
 using Xunit;
 
 namespace MattEland.SoftwareQualityTalk.Tests
 {
     public class YearsInJobTests
     {
+        private readonly Faker _bogus;
 
         [Theory]
         [InlineData(1, 1)]
@@ -29,26 +34,44 @@ namespace MattEland.SoftwareQualityTalk.Tests
             _bogus = new Faker();
         }
 
-        private readonly Faker _bogus;
-
         [Fact]
         public void SingleJobScoreShouldMatchExpectedUsingBogus()
         {
             // Arrange
-            int numMonths = _bogus.Random.Int(0, 40 * 12);
             var resume = new ResumeInfo(_bogus.Name.FullName());
-
-            resume.Jobs.Add(new JobInfo(_bogus.Hacker.Phrase(),
-                _bogus.Company.CompanyName(),
-                numMonths));
-
+            var job = BuildJobEntry();
+            resume.Jobs.Add(job);
             var analyzer = new ResumeAnalyzer();
 
             // Act
             var result = analyzer.Analyze(resume);
 
             // Assert
-            Assert.Equal(numMonths, result.Score);
+            result.Score.ShouldBe(job.MonthsInJob);
+        }
+
+        private JobInfo BuildJobEntry() 
+            => new JobInfo(
+                _bogus.Hacker.Phrase(),
+                _bogus.Company.CompanyName(),
+                _bogus.Random.Int(1, 60 * 12));
+
+        [Fact]
+        public void SingleJobScoreShouldMatchExpectedUsingAutoFixture()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var resume = fixture.Create<ResumeInfo>();
+            int totalMonths = resume.Jobs.Sum(j => j.MonthsInJob);
+
+            var analyzer = new ResumeAnalyzer();
+            var bonusProvider = new FakeKeywordProvider();
+
+            // Act
+            var result = analyzer.Analyze(resume, bonusProvider);
+
+            // Assert
+            result.Score.ShouldBe(totalMonths);
         }
     }
 }
