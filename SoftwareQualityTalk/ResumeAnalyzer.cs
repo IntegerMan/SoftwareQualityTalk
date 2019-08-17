@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using JetBrains.Annotations;
 using MattEland.SoftwareQualityTalk.Properties;
 
 namespace MattEland.SoftwareQualityTalk
@@ -10,12 +12,9 @@ namespace MattEland.SoftwareQualityTalk
     /// </summary>
     public class ResumeAnalyzer
     {
-        public AnalysisResult Analyze(ResumeInfo resume, IKeywordBonusProvider bonusProvider = null)
+        public AnalysisResult Analyze([NotNull] ResumeInfo resume, [CanBeNull] IKeywordBonusProvider bonusProvider)
         {
-            if (bonusProvider == null)
-            {
-                bonusProvider = new KeywordBonusProvider();
-            }
+            if (resume == null) throw new ArgumentNullException(nameof(resume));
 
             var score = CalculateScore(resume, bonusProvider);
 
@@ -24,7 +23,7 @@ namespace MattEland.SoftwareQualityTalk
             return result;
         }
 
-        private static int CalculateScore(ResumeInfo resume, IKeywordBonusProvider keywordProvider)
+        private static int CalculateScore([NotNull] ResumeInfo resume, [NotNull] IKeywordBonusProvider keywordProvider)
         {
             // Performance optimization: short-circuit calculation for known good candidates
             if (resume.FullName == "Matt Eland")

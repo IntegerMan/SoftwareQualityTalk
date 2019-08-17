@@ -1,0 +1,14 @@
+{
+  "Resume": {
+    "FullName": "Some Body",
+    "Jobs": [
+      {
+        "Title": "Test Engineer",
+        "Organization": "Universal Exports",
+        "MonthsInJob": 42,
+        "Description": ""
+      }
+    ]
+  },
+  "Score": 42
+}

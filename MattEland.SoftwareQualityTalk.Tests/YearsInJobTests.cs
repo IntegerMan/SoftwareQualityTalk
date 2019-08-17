@@ -23,7 +23,7 @@ namespace MattEland.SoftwareQualityTalk.Tests
             resume.Jobs.Add(new JobInfo("Organ Donor", "State of Ohio", numMonths));
 
             // Act
-            var result = analyzer.Analyze(resume);
+            var result = analyzer.Analyze(resume, new KeywordBonusProvider());
 
             // Assert
             Assert.Equal(expectedScore, result.Score);
@@ -44,7 +44,7 @@ namespace MattEland.SoftwareQualityTalk.Tests
             var analyzer = new ResumeAnalyzer();
 
             // Act
-            var result = analyzer.Analyze(resume);
+            var result = analyzer.Analyze(resume, new KeywordBonusProvider());
 
             // Assert
             result.Score.ShouldBe(job.MonthsInJob);
