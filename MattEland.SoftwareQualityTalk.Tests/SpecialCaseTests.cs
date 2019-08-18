@@ -6,17 +6,16 @@ using Snapper.Attributes;
 
 namespace MattEland.SoftwareQualityTalk.Tests
 {
-    public class SpecialCaseTests
+    public class SpecialCaseTests : ResumeTestsBase
     {
         [Fact]
         public void MattElandShouldAlwaysScoreWell()
         {
             // Arrange
-            var analyzer = new ResumeAnalyzer();
             var resume = new ResumeInfo("Matt Eland");
 
             // Act
-            var result = analyzer.Analyze(resume, new FakeKeywordProvider());
+            var result = Analyze(resume);
 
             // Assert
             result.Score.Should().Be(int.MaxValue);
@@ -30,12 +29,11 @@ namespace MattEland.SoftwareQualityTalk.Tests
         public void SamplePinningTest()
         {
             // Arrange
-            var analyzer = new ResumeAnalyzer();
             var resume = new ResumeInfo("Some Body");
             resume.Jobs.Add(new JobInfo("Test Engineer", "Universal Exports", 42));
 
             // Act
-            var result = analyzer.Analyze(resume, new FakeKeywordProvider());
+            var result = Analyze(resume);
 
             // Assert
             result.ShouldMatchSnapshot();

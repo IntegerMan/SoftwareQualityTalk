@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using Bogus;
 using GitHub;
+using JetBrains.Annotations;
 using MattEland.SoftwareQualityTalk.Tests.Helpers;
 
 namespace MattEland.SoftwareQualityTalk.Tests
@@ -8,6 +10,12 @@ namespace MattEland.SoftwareQualityTalk.Tests
     public abstract class ResumeTestsBase
     {
         private static bool _scientistInitialized;
+        protected readonly Faker _bogus;
+
+        protected ResumeTestsBase()
+        {
+            _bogus = new Faker();
+        }
 
         protected AnalysisResult Analyze(ResumeInfo resume,
             IKeywordBonusProvider bonusProvider = null,
@@ -48,5 +56,12 @@ namespace MattEland.SoftwareQualityTalk.Tests
             _scientistInitialized = true;
             Scientist.ResultPublisher = new ThrowIfMismatchedPublisher();
         }
+
+        [NotNull]
+        protected JobInfo BuildJobEntry() 
+            => new JobInfo(
+                _bogus.Hacker.Phrase(),
+                _bogus.Company.CompanyName(),
+                _bogus.Random.Int(1, 60 * 12));
     }
 }

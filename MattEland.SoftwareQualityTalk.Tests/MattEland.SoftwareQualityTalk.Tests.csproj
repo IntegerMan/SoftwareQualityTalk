@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extras.Moq" Version="4.3.0" />
     <PackageReference Include="AutoFixture" Version="4.11.0" />
     <PackageReference Include="Bogus" Version="28.0.2" />
     <PackageReference Include="FluentAssertions" Version="5.8.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0-preview-20181205-02" />
+    <PackageReference Include="Moq" Version="4.12.0" />
     <PackageReference Include="Scientist" Version="2.0.0" />
     <PackageReference Include="SharpFuzz" Version="1.6.1" />
     <PackageReference Include="Shouldly" Version="3.0.2" />

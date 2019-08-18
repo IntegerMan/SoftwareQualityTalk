@@ -24,3 +24,7 @@ SoftwareQualityTalk/ResumeData_log\.ldf
 MattEland\.SoftwareQualityTalk\.ConsoleApp/bin/
 
 MattEland\.SoftwareQualityTalk\.ConsoleApp/obj/
+
+MattEland.SoftwareQualityTalk.Tests/NUnitSample.cs
+
+.idea/
