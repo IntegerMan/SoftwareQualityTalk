@@ -28,3 +28,9 @@ MattEland\.SoftwareQualityTalk\.ConsoleApp/obj/
 MattEland.SoftwareQualityTalk.Tests/NUnitSample.cs
 
 .idea/
+
+MattEland.SoftwareQualityTalk.SpecFlow/bin/
+
+MattEland.SoftwareQualityTalk.SpecFlow/obj/
+
+*.user

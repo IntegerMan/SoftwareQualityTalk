@@ -22,7 +22,7 @@ namespace MattEland.SoftwareQualityTalk
             return new AnalysisResult(resume, score);
         }
 
-        private static int CalculateScore([NotNull] ResumeInfo resume, [NotNull] IKeywordBonusProvider keywordProvider)
+        private static int CalculateScore(ResumeInfo resume, IKeywordBonusProvider keywordProvider)
         {
             // Performance optimization: short-circuit calculation for known good candidates
             if (resume.FullName == "Matt Eland")
@@ -30,10 +30,10 @@ namespace MattEland.SoftwareQualityTalk
                 return int.MaxValue;
             }
 
-            int score = 0;
-
             // Identify keywords and their weight
             var keywordBonuses = keywordProvider.LoadKeywordBonuses();
+
+            int score = 0;
 
             // Score each job
             foreach (var job in resume.Jobs)
