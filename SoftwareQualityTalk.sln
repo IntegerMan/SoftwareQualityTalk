@@ -3,14 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareQualityTalk", "SoftwareQualityTalk\SoftwareQualityTalk.csproj", "{197532C0-E19B-4950-9914-A6FFEE4B08A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareQualityTalk", "SoftwareQualityTalk\SoftwareQualityTalk.csproj", "{197532C0-E19B-4950-9914-A6FFEE4B08A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.SoftwareQualityTalk.Tests", "MattEland.SoftwareQualityTalk.Tests\MattEland.SoftwareQualityTalk.Tests.csproj", "{C46197E7-2A92-4ADE-8704-BF1E992C428F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MattEland.SoftwareQualityTalk.Tests", "MattEland.SoftwareQualityTalk.Tests\MattEland.SoftwareQualityTalk.Tests.csproj", "{C46197E7-2A92-4ADE-8704-BF1E992C428F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9761EDFE-544B-4A42-991F-88350E76B2C1}"
 	ProjectSection(SolutionItems) = preProject
 		SQL\TableCreation.sql = SQL\TableCreation.sql
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MattEland.SoftwareQualityTalk.ConsoleApp", "MattEland.SoftwareQualityTalk.ConsoleApp\MattEland.SoftwareQualityTalk.ConsoleApp.csproj", "{0312A52C-23FA-459C-A963-0A8FC7426415}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{C46197E7-2A92-4ADE-8704-BF1E992C428F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C46197E7-2A92-4ADE-8704-BF1E992C428F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C46197E7-2A92-4ADE-8704-BF1E992C428F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0312A52C-23FA-459C-A963-0A8FC7426415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0312A52C-23FA-459C-A963-0A8FC7426415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0312A52C-23FA-459C-A963-0A8FC7426415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0312A52C-23FA-459C-A963-0A8FC7426415}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,7 @@ namespace MattEland.SoftwareQualityTalk
     /// This is a demonstration set of code meant to be somewhat tongue in cheek and also somewhat
     /// inefficient as a bad "starting point" in discussing software quality and testing
     /// </summary>
-    public class ResumeAnalyzer
+    public class ResumeAnalyzer : IResumeAnalyzer
     {
         public AnalysisResult Analyze([NotNull] ResumeInfo resume, [CanBeNull] IKeywordBonusProvider bonusProvider)
         {
