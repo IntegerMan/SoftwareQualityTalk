@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using Autofac;
 using Bogus;
 using GitHub;
 using JetBrains.Annotations;
@@ -23,17 +24,21 @@ namespace MattEland.SoftwareQualityTalk.Tests
         {
             InitializeResultPublisherAsNeeded();
 
+
             var legacyAnalyzer = new ResumeAnalyzer();
             var newAnalyzer = new RewrittenAnalyzer();
+
             bonusProvider ??= BuildBonusProvider();
+
+            IContainer container = BuildTestContainer(bonusProvider);
 
             try
             {
                 return Scientist.Science<AnalysisResult>(caller,
                     experiment =>
                     {
-                        experiment.Use(() => legacyAnalyzer.Analyze(resume, bonusProvider));
-                        // experiment.Try(() => newAnalyzer.Analyze(resume, bonusProvider));
+                        experiment.Use(() => legacyAnalyzer.Analyze(resume, container));
+                        // experiment.Try(() => newAnalyzer.Analyze(resume, container));
                         experiment.Compare((x, y) => x.Score == y.Score);
                     });
             }
@@ -42,6 +47,17 @@ namespace MattEland.SoftwareQualityTalk.Tests
                 var opEx = agEx.InnerException; // Scientist wraps exceptions into an OperationException
                 throw opEx.InnerException; // This is the actual exception that we threw on comparing assertions
             }
+        }
+
+        private static IContainer BuildTestContainer(IKeywordBonusProvider bonusProvider)
+        {
+            // We need a container builder in order to add container instances
+            var builder = new ContainerBuilder();
+
+            // Our bonus provider will be used any time an IKeywordBonusProvider is requested
+            builder.RegisterInstance(bonusProvider).As<IKeywordBonusProvider>();
+
+            return builder.Build();
         }
 
         protected virtual IKeywordBonusProvider BuildBonusProvider()

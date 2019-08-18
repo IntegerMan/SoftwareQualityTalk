@@ -1,9 +1,11 @@
-﻿using JetBrains.Annotations;
+﻿using Autofac;
+using JetBrains.Annotations;
 
 namespace MattEland.SoftwareQualityTalk
 {
     public interface IResumeAnalyzer
     {
-        AnalysisResult Analyze([NotNull] ResumeInfo resume, [CanBeNull] IKeywordBonusProvider bonusProvider);
+        [NotNull]
+        AnalysisResult Analyze([NotNull] ResumeInfo resume, [NotNull] IContainer container);
     }
 }

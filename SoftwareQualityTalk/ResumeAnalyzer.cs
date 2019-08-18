@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Autofac;
 using JetBrains.Annotations;
 using MattEland.SoftwareQualityTalk.Properties;
 
@@ -12,15 +13,13 @@ namespace MattEland.SoftwareQualityTalk
     /// </summary>
     public class ResumeAnalyzer : IResumeAnalyzer
     {
-        public AnalysisResult Analyze([NotNull] ResumeInfo resume, [CanBeNull] IKeywordBonusProvider bonusProvider)
+        public AnalysisResult Analyze(ResumeInfo resume, IContainer container)
         {
-            if (resume == null) throw new ArgumentNullException(nameof(resume));
+            IKeywordBonusProvider bonusProvider = container.Resolve<IKeywordBonusProvider>();
 
             var score = CalculateScore(resume, bonusProvider);
 
-            var result = new AnalysisResult(resume, score);
-
-            return result;
+            return new AnalysisResult(resume, score);
         }
 
         private static int CalculateScore([NotNull] ResumeInfo resume, [NotNull] IKeywordBonusProvider keywordProvider)

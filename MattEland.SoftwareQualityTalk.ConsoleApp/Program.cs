@@ -1,4 +1,5 @@
 ﻿using System;
+using Autofac;
 
 namespace MattEland.SoftwareQualityTalk.ConsoleApp
 {
@@ -10,9 +11,20 @@ namespace MattEland.SoftwareQualityTalk.ConsoleApp
 
             IResumeAnalyzer analyzer = GetResumeAnalyzer();
 
-            var result = analyzer.Analyze(resume, new KeywordBonusProvider());
+            IContainer container = BuildContainer();
+
+            var result = analyzer.Analyze(resume, container);
 
             Console.WriteLine($"{resume.FullName}'s resume score is {result.Score}");
+        }
+
+        private static IContainer BuildContainer()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<KeywordBonusProvider>().As<IKeywordBonusProvider>();
+
+            return builder.Build();
         }
 
         private static IResumeAnalyzer GetResumeAnalyzer()
