@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Shouldly;
 using Xunit;
@@ -47,7 +49,22 @@ namespace MattEland.SoftwareQualityTalk.Tests
 
             mock.Verify(provider => provider.LoadKeywordBonuses(), Times.Exactly(1));
         }
-    }
 
+        [Fact]
+        public void EntityFrameworkKeywordTestsShouldFunction()
+        {
+            // Arrange
+            var resume = new ResumeInfo("Someone Awesome");
+            resume.Jobs.Add(new JobInfo("XUnit Tester", "Universal Exports", 1));
+
+            var provider = BuildEntityKeywordBonusProvider();
+
+            // Act
+            var result = Analyze(resume, provider);
+
+            // Assert
+            result.Score.ShouldBe(6);
+        }
+    }
 
 }

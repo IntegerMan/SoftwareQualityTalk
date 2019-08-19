@@ -34,3 +34,7 @@ MattEland.SoftwareQualityTalk.SpecFlow/bin/
 MattEland.SoftwareQualityTalk.SpecFlow/obj/
 
 *.user
+
+WebTesting/bin/
+
+WebTesting/obj/

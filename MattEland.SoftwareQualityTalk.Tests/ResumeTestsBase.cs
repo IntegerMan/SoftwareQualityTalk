@@ -5,6 +5,7 @@ using Bogus;
 using GitHub;
 using JetBrains.Annotations;
 using MattEland.SoftwareQualityTalk.Tests.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace MattEland.SoftwareQualityTalk.Tests
 {
@@ -79,5 +80,34 @@ namespace MattEland.SoftwareQualityTalk.Tests
                 _bogus.Hacker.Phrase(),
                 _bogus.Company.CompanyName(),
                 _bogus.Random.Int(1, 60 * 12));
+
+        protected EntityKeywordContext BuildContext([CallerMemberName] string caller = "")
+        {
+            // Specify that this should be an in-memory database instance
+            var options = new DbContextOptionsBuilder<EntityKeywordContext>()
+                .UseInMemoryDatabase(caller)
+                .Options;
+
+            var context = new EntityKeywordContext(options);
+
+            // Seed with sample data
+            context.Keywords.AddRange(
+   new KeywordData {Id = 1, Keyword = "testing", Modifier = 5}, 
+                new KeywordData {Id = 2, Keyword = "nunit", Modifier = 5}, 
+                new KeywordData {Id = 3, Keyword = "xunit", Modifier = 5}, 
+                new KeywordData {Id = 4, Keyword = "mstest", Modifier = 2});
+
+            // Commit the in-memory data so we can pull it in tests
+            context.SaveChanges();
+
+            return context;
+        }
+
+        protected EntityKeywordBonusProvider BuildEntityKeywordBonusProvider()
+        {
+            var context = BuildContext();
+            var provider = new EntityKeywordBonusProvider(context);
+            return provider;
+        }
     }
 }
