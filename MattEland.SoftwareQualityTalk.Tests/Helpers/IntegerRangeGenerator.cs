@@ -7,7 +7,7 @@ namespace MattEland.SoftwareQualityTalk.Tests.Helpers
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            for (int i = 1; i <= 1000; i++)
+            for (int i = 1; i <= 5; i++)
             {
                 yield return new object[] {i};
             }

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using Autofac;
 using JetBrains.Annotations;
+using LanguageExt;
 using MattEland.SoftwareQualityTalk.Properties;
+using static LanguageExt.Option<int>;
 
 namespace MattEland.SoftwareQualityTalk
 {
@@ -13,16 +16,20 @@ namespace MattEland.SoftwareQualityTalk
     /// </summary>
     public class ResumeAnalyzer : IResumeAnalyzer
     {
-        public AnalysisResult Analyze(ResumeInfo resume, IContainer container)
+        public AnalysisResult Analyze(
+            [NotNull] ResumeInfo resume, 
+            [NotNull] IContainer container)
         {
-            IKeywordBonusProvider bonusProvider = container.Resolve<IKeywordBonusProvider>();
+            var bonusProvider = container.Resolve<IKeywordBonusProvider>();
 
             var score = CalculateScore(resume, bonusProvider);
 
             return new AnalysisResult(resume, score);
         }
 
-        private static int CalculateScore(ResumeInfo resume, IKeywordBonusProvider keywordProvider)
+        private static int CalculateScore(
+            [NotNull] ResumeInfo resume, 
+            [NotNull] IKeywordBonusProvider keywordProvider)
         {
             // Performance optimization: short-circuit calculation for known good candidates
             if (resume.FullName == "Matt Eland")
@@ -44,20 +51,8 @@ namespace MattEland.SoftwareQualityTalk
                 foreach (var word in job.Title.Split())
                 {
                     var key = word.ToLowerInvariant();
-                    if (keywordBonuses.ContainsKey(key))
-                    {
-                        jobScore += keywordBonuses[key];
-                    }
-                }
-
-                // Look at description in an a very repetitive way. Because code duplication is great!
-                foreach (var word in job.Description.Split())
-                {
-                    var key = word.ToLowerInvariant();
-                    if (keywordBonuses.ContainsKey(key))
-                    {
-                        jobScore += keywordBonuses[key];
-                    }
+                    var keyword = FindKeyword(keywordBonuses, key);
+                    jobScore += keyword.Some(keywordScore => keywordScore).None(0);
                 }
 
                 score += jobScore;
@@ -70,5 +65,14 @@ namespace MattEland.SoftwareQualityTalk
             return score;
         }
 
+        private static Option<int> FindKeyword(IDictionary<string, int> keywordBonuses, string key)
+        {
+            if (keywordBonuses.ContainsKey(key))
+            {
+                return keywordBonuses[key];
+            }
+
+            return None;
+        }
     }
 }
