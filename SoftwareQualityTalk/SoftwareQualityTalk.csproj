@@ -4,6 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>MattEland.SoftwareQualityTalk</AssemblyName>
     <RootNamespace>MattEland.SoftwareQualityTalk</RootNamespace>
+
+	  <LangVersion>8.0</LangVersion>
+	  <Nullable>enable</Nullable>
+	
   </PropertyGroup>
 
   <ItemGroup>

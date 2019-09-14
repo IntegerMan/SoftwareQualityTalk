@@ -13,14 +13,14 @@ namespace MattEland.SoftwareQualityTalk
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IDictionary<string, int> LoadKeywordBonuses()
+        public IDictionary<string, ResumeKeyword> LoadKeywordBonuses()
         {
 
-            IDictionary<string, int> keywordBonuses = new Dictionary<string, int>();
+            var keywordBonuses = new Dictionary<string, ResumeKeyword>();
 
             foreach (var keyword in _context.Keywords)
             {
-                keywordBonuses[keyword.Keyword] = keyword.Modifier;
+                keywordBonuses[keyword.Keyword] = new ResumeKeyword(keyword.Keyword, keyword.Modifier);
             }
 
             return keywordBonuses;

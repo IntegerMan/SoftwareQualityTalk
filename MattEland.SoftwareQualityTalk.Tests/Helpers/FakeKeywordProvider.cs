@@ -4,13 +4,13 @@ namespace MattEland.SoftwareQualityTalk.Tests
 {
     public class FakeKeywordProvider : IKeywordBonusProvider
     {
-        public IDictionary<string, int> LoadKeywordBonuses() 
-            => new Dictionary<string, int>
+        public IDictionary<string, ResumeKeyword> LoadKeywordBonuses() 
+            => new Dictionary<string, ResumeKeyword>
             {
-                ["testing"] = 5, 
-                ["xunit"] = 5, 
-                ["nunit"] = 5, 
-                ["mstest"] = 2 // Sorry, MSTest
+                ["testing"] = new ResumeKeyword("Testing", 5), 
+                ["xunit"] = new ResumeKeyword("XUnit", 5), 
+                ["nunit"] = new ResumeKeyword("NUnit", 5), 
+                ["mstest"] = new ResumeKeyword("MSTest", 1) // Sorry, MSTest
             };
     }
 }

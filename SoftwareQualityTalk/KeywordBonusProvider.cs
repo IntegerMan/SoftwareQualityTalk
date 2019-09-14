@@ -6,14 +6,14 @@ namespace MattEland.SoftwareQualityTalk
 {
     public interface IKeywordBonusProvider
     {
-        IDictionary<string, int> LoadKeywordBonuses();
+        IDictionary<string, ResumeKeyword> LoadKeywordBonuses();
     }
 
     public class KeywordBonusProvider : IKeywordBonusProvider
     {
-        public IDictionary<string, int> LoadKeywordBonuses()
+        public IDictionary<string, ResumeKeyword> LoadKeywordBonuses()
         {
-            IDictionary<string, int> keywordBonuses = new Dictionary<string, int>();
+            var keywordBonuses = new Dictionary<string, ResumeKeyword>();
 
             // Grab keywords from the local database
             using (var conn = new SqlConnection(Resources.DbConnStr))
@@ -28,7 +28,7 @@ namespace MattEland.SoftwareQualityTalk
                         string keyword = (string) reader[0];
                         int modifier = (int) reader[1];
 
-                        keywordBonuses[keyword.ToLowerInvariant()] = modifier;
+                        keywordBonuses[keyword.ToLowerInvariant()] = new ResumeKeyword(keyword, modifier);
                     }
                 }
             }

@@ -23,21 +23,6 @@ namespace MattEland.SoftwareQualityTalk.Tests
 
             // Assert
             Assert.Equal(expectedScore, result.Score);
-        }        
-        
-        [Theory]
-        [ClassData(typeof(IntegerRangeGenerator))]
-        public void SingleJobScoringUsingClassData(int numMonths)
-        {
-            // Arrange
-            var resume = new ResumeInfo("John Doe");
-            resume.Jobs.Add(new JobInfo("Organ Donor", "State of Ohio", numMonths));
-
-            // Act
-            var result = Analyze(resume);
-
-            // Assert
-            Assert.Equal(numMonths, result.Score);
         }
 
         [Fact]

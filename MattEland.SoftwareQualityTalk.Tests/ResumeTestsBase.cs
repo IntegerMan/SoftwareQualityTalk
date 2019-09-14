@@ -20,7 +20,7 @@ namespace MattEland.SoftwareQualityTalk.Tests
         }
 
         protected AnalysisResult Analyze(ResumeInfo resume,
-            IKeywordBonusProvider bonusProvider = null,
+            IKeywordBonusProvider? bonusProvider = null,
             [CallerMemberName] string caller = "")
         {
             InitializeResultPublisherAsNeeded();
@@ -46,7 +46,17 @@ namespace MattEland.SoftwareQualityTalk.Tests
             catch (AggregateException agEx) // Scientist wraps exceptions into an aggregate
             {
                 var opEx = agEx.InnerException; // Scientist wraps exceptions into an OperationException
-                throw opEx.InnerException; // This is the actual exception that we threw on comparing assertions
+                if (opEx?.InnerException != null) {
+                    throw opEx.InnerException; // This is the actual exception that we threw on comparing assertions
+                }
+                else if (opEx != null)
+                {
+                    throw opEx;
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 

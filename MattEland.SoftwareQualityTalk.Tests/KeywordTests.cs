@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using Shouldly;
 using Xunit;
@@ -36,9 +34,9 @@ namespace MattEland.SoftwareQualityTalk.Tests
 
             var mock = new Mock<IKeywordBonusProvider>();
             mock.Setup(provider => provider.LoadKeywordBonuses())
-                .Returns(new Dictionary<string, int>
+                .Returns(new Dictionary<string, ResumeKeyword>
                 {
-                    ["attendee"] = 50
+                    ["attendee"] = new ResumeKeyword("Attendee", 50)
                 });
 
             // Act

@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using Autofac;
-using JetBrains.Annotations;
-using LanguageExt;
-using MattEland.SoftwareQualityTalk.Properties;
-using static LanguageExt.Option<int>;
 
 namespace MattEland.SoftwareQualityTalk
 {
@@ -16,10 +10,12 @@ namespace MattEland.SoftwareQualityTalk
     /// </summary>
     public class ResumeAnalyzer : IResumeAnalyzer
     {
-        public AnalysisResult Analyze(
-            [NotNull] ResumeInfo resume, 
-            [NotNull] IContainer container)
+
+        public AnalysisResult Analyze(ResumeInfo resume, IContainer container)
         {
+            if (resume == null) throw new ArgumentNullException(nameof(resume));
+            if (container == null) throw new ArgumentNullException(nameof(container));
+
             var bonusProvider = container.Resolve<IKeywordBonusProvider>();
 
             var score = CalculateScore(resume, bonusProvider);
@@ -27,9 +23,7 @@ namespace MattEland.SoftwareQualityTalk
             return new AnalysisResult(resume, score);
         }
 
-        private static int CalculateScore(
-            [NotNull] ResumeInfo resume, 
-            [NotNull] IKeywordBonusProvider keywordProvider)
+        private static int CalculateScore(ResumeInfo resume, IKeywordBonusProvider keywordProvider)
         {
             // Performance optimization: short-circuit calculation for known good candidates
             if (resume.FullName == "Matt Eland")
@@ -52,7 +46,7 @@ namespace MattEland.SoftwareQualityTalk
                 {
                     var key = word.ToLowerInvariant();
                     var keyword = FindKeyword(keywordBonuses, key);
-                    jobScore += keyword.Some(keywordScore => keywordScore).None(0);
+                    jobScore += keyword.Value;
                 }
 
                 score += jobScore;
@@ -65,14 +59,14 @@ namespace MattEland.SoftwareQualityTalk
             return score;
         }
 
-        private static Option<int> FindKeyword(IDictionary<string, int> keywordBonuses, string key)
+        private static ResumeKeyword? FindKeyword(IDictionary<string, ResumeKeyword> keywordBonuses, string key)
         {
-            if (keywordBonuses.ContainsKey(key))
+            if (keywordBonuses.ContainsKey(key)) 
             {
                 return keywordBonuses[key];
             }
 
-            return None;
+            return null;
         }
     }
 }

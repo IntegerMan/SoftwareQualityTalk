@@ -4,7 +4,7 @@ namespace MattEland.SoftwareQualityTalk
 {
     public class EntityKeywordContext : DbContext
     {
-        public EntityKeywordContext(DbContextOptions<EntityKeywordContext> options) : base(options)
+        public EntityKeywordContext(DbContextOptions options) : base(options)
         {
 
         }
